@@ -7,6 +7,13 @@
             <h3>AskMe something</h3>
         </div>
 
+        <% if (messages) { %>
+            <% messages.forEach(function(message) {%>
+                <p style="color: red; padding-left:2rem; padding-top:1rem;" ><%= message %></p>
+            <% }); %>
+        <% } %>
+
+
         <div class="card body">
             <form method="post" action="/saveQuestions">
                 <div class="container mt-3">

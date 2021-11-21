@@ -43,7 +43,7 @@ app.get("/", (req, res) => {
 })
 
 app.get("/ask", (req, res) => {
-    res.render("ask")
+    res.render("ask", {messages: []});
 })
 
 app.post("/saveQuestions", (req, res) => {
@@ -51,6 +51,20 @@ app.post("/saveQuestions", (req, res) => {
     // req data from the form by the => name
     let title = req.body.title;
     let description = req.body.description;
+    let messages = [];
+
+    if (!title) {
+        messages.push("Fill the title");
+    }
+    if (!description) {
+        messages.push("Fill the description");
+    }
+
+    if (messages.length > 0) {
+        res.render("ask", {messages});
+        return;
+    }
+
     // To save the questions in a table. First we have to assign it to a var => questionsModel and then call the method creat()
     QuestionsModel.create({
         title: title,
@@ -65,15 +79,21 @@ app.get("/question/:id", (req, res) => {
     QuestionsModel.findOne({
         where: {id: id}
     }).then(question => {
-        if (question != undefined) {
+        if (question !== undefined) {
             AnswerModel.findAll({
                 where: {questionId: question.id},
                 order: [['id', 'DESC']]
 
             }).then((answers) => {
+                let error = "";
+                if (req.query.error === "answer-required") {
+                    error = "Please enter an answer";
+                }
+
                 res.render("question", {
                     question: question,
-                    answers: answers
+                    answers: answers,
+                    error: error,
                 })
             })
 
@@ -87,6 +107,13 @@ app.post("/answer", (req, res) => {
     /*this route will receive the data from the answer form*/
     let body = req.body.body;
     let questionId = req.body.question;
+    if (body === '') {
+        // alert("Please Fill All Required Field");
+        const url = `/question/${questionId}?error=question-required`;
+        res.redirect(url);
+        return;
+    }
+
     console.log(body);
     console.log(questionId)
     AnswerModel.create({

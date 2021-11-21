@@ -5,6 +5,11 @@
 <div class="container mt-4">
     <p class="font-weight-bold"> <%= question.title %> </p>
     <p> <%= question.description %> </p>
+
+    <% if (error) { %>
+        <p style="color: red"><%= error %></p>
+    <% } %>
+
     <form method="post" action="/answer">
         <div class="container">
             <label class="font-weight-bold" for="">Answer</label>
@@ -20,11 +25,11 @@
     <div class="container">
         <p class="font-weight-bold mt-5">Answers</p>
         <% answers.forEach(answer => { %>
-           <div class="card mt-3">
-               <div class="card-body">
-                   <%= answer.body %>
-               </div>
-           </div>
+            <div class="card mt-3">
+                <div class="card-body">
+                    <%= answer.body %>
+                </div>
+            </div>
         <% }) %>
 
     </div>
