@@ -3,6 +3,14 @@ const app = express();
 const bodyParser = require('body-parser');
 const connection = require("./database/database");
 
+const categoriesController = require('./categories/CategoriesController');
+const articleController = require('./articles/ArticleController');
+
+/**
+ * Importing the Modules
+ */
+const Article = require('./articles/Article');
+const Category = require('./categories/Category');
 
 
 //View engine
@@ -23,6 +31,12 @@ connection
     }).catch((err) => {
     console.log(`error connecting database ${err}`);
 })
+
+
+app.use('/', categoriesController);
+app.use('/', articleController);
+
+
 
 app.get('/', (req, res) => {
     res.render('index');
