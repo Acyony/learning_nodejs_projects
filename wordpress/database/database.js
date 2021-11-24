@@ -12,7 +12,8 @@ const config = {
 const connection = new Sequelize(
         config.db_name, config.db_user, config.db_pass, {
         host: config.db_host,
-        dialect: 'mysql'
+        dialect: 'mysql',
+        timezone: "+2:00"
     })
 
 module.exports = connection;
