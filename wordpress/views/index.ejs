@@ -6,9 +6,10 @@
     <hr>
     <div class="jumbotron mt-4">
         <h1 class="display-4">Hello, Welcome!</h1>
-        <p class="lead">This is a minimalist forum, where you can share your questions and help others students too, answering their questions.</p>
+        <p class="lead">This is a minimalist forum, where you can share your questions and help others students too,
+            answering their questions.</p>
         <hr class="my-4">
-        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+        <p>Our mission is to connect you all that are learning how to code.</p>
         <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
     </div>
 
@@ -19,7 +20,7 @@
                 <h3> <%= article.title %> </h3>
             </div>
             <div class="card-body mb-4">
-                <a href="#" class="bnt btn-success p-2"> Read article</a>
+                <a href="/<%= article.slug %>" target="_blank" class="bnt btn-success p-2"> Read article</a>
             </div>
         </div>
     <% }) %>
