@@ -36,7 +36,6 @@ router.post('/articles/save', (req, res) => {
 })
 
 
-
 /**
  * To delete a category
  */
@@ -61,6 +60,22 @@ router.post('/articles/delete', (req, res) => {
     }
 });
 
+router.get('/admin/articles/edit/:id', (req, res) => {
+    let id = req.params.id;
+
+    Article.findByPk(id).then(article => {
+        console.log(article)
+        if (article) {
+            Category.findAll().then(categories => {
+                res.render('admin/articles/edit', {categories: categories, article: article});
+            })
+        } else {
+            res.redirect('/');
+        }
+    }).catch((err) => {
+        res.redirect('/');
+    })
+})
 
 
 module.exports = router;
