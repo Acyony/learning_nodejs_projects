@@ -8,7 +8,8 @@
             <h2>Edit Article</h2>
         </div>
         <div class="card-body">
-            <form method="POST" action="/articles/save">
+            <form method="POST" action="/articles/update">
+                <input type="hidden" value="<%= article.id %>" name="id">
                 <input class="form-control mb-4" type="text" name="title" placeholder="Define the article title"
                        value="<%= article.title %>">
                 <textarea name="body" id="article" cols="30" rows="10" class="form-control"

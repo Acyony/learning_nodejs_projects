@@ -3,6 +3,7 @@ const router = express.Router();
 const Category = require('../categories/Category');
 const Article = require('./Article');
 const slugify = require('slugify');
+const {where} = require("sequelize");
 
 
 router.get('/admin/articles', ((req, res) => {
@@ -73,6 +74,26 @@ router.get('/admin/articles/edit/:id', (req, res) => {
             res.redirect('/');
         }
     }).catch((err) => {
+        res.redirect('/');
+    })
+})
+
+
+router.post('/articles/update', (req, res) => {
+    let id = req.body.id;
+    let title = req.body.title;
+    let body = req.body.body;
+    let category = req.body.category;
+
+    Article.update({
+        title: title,
+        body: body,
+        categoryId: category,
+        slug: slugify(title)
+    }, {where: {id: id}}).then(() => {
+        res.redirect('/admin/articles');
+    }).catch(err => {
+        console.log(err);
         res.redirect('/');
     })
 })
