@@ -106,13 +106,16 @@ router.get('/articles/page/:num', (req, res) => {
     if (isNaN(page) || page === 1) {
         offset = 0;
     } else {
-        offset = parseInt(page) * 4;
+        offset = (parseInt(page) - 1) * 4;
     }
 
     // setting how many articles I want per page => pagination approach
     Article.findAndCountAll({
         limit: 4,
-        offset: offset
+        offset: offset,
+        order: [
+            ['id', 'DESC']
+        ]
     }).then(articles => {
 
         let next;
@@ -123,11 +126,15 @@ router.get('/articles/page/:num', (req, res) => {
         }
 
         let result = {
+            page: parseInt(page),
             next: next,
             articles: articles
         }
 
-        res.json(result);
+        Category.findAll().then(categories => {
+            res.render('admin/articles/page', {result: result, categories: categories})
+        })
+
     })
 });
 
