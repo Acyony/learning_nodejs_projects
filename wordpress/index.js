@@ -5,12 +5,14 @@ const connection = require("./database/database");
 
 const categoriesController = require('./categories/CategoriesController');
 const articleController = require('./articles/ArticleController');
+const usersController = require('./user/UserController');
 
 /**
  * Importing the Modules
  */
 const Article = require('./articles/Article');
 const Category = require('./categories/Category');
+const User = require('./user/User');
 
 
 //View engine
@@ -22,6 +24,7 @@ app.use(express.static('public'));
 //Body parser
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json());
+
 
 // Database
 connection
@@ -35,6 +38,7 @@ connection
 
 app.use('/', categoriesController);
 app.use('/', articleController);
+app.use('/', usersController);
 
 
 app.get('/', (req, res) => {
