@@ -5,7 +5,9 @@ const bcrypt = require('bcryptjs');
 
 
 router.get('/admin/users', (req, res) => {
-    res.send('Users list');
+    User.findAll().then(users => {
+        res.render('admin/users/index', {users: users});
+    })
 })
 
 

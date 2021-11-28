@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const session = require('express-session');
 const connection = require("./database/database");
 
 const categoriesController = require('./categories/CategoriesController');
@@ -13,10 +14,18 @@ const usersController = require('./user/UserController');
 const Article = require('./articles/Article');
 const Category = require('./categories/Category');
 const User = require('./user/User');
+const cookie = require("cookie");
 
 
 //View engine
 app.set('view engine', 'ejs');
+
+
+//Sessions
+app.use(session({
+    secret: 'bonekDeCroche', cookie: {maxAge: 30000}
+}))
+
 
 // static
 app.use(express.static('public'));
@@ -40,6 +49,32 @@ app.use('/', categoriesController);
 app.use('/', articleController);
 app.use('/', usersController);
 
+
+/**
+ * Learning how to work with sessions
+ */
+/*app.get('/session', (req, res) => {
+    req.session.training = 'training Nodejs'
+    req.session.year = 2021
+    req.session.email = 'alcione@email.com'
+    req.session.user = {
+        username: 'acyony',
+        email: 'alcione@email.com',
+        id: 10
+    }
+    res.send('Session is generated successfully!')
+});
+
+
+app.get('/reading', (req, res) => {
+    res.json({
+        training: req.session.training,
+        year: req.session.year,
+        email: req.session.email,
+        user: req.session.user
+    })
+
+});*/
 
 app.get('/', (req, res) => {
     Article.findAll({
